@@ -95,19 +95,26 @@ int fire(int killed)
         float angle = (in_angle * kPi) / 180.0;
         int distance = calDistance(angle) - enemy_position; // distance between ammo and enemy
         num_remain_cannon_balls--;
-        if (distance > 0)
-        {
-            std::cout << "You over shot by " << distance << std::endl;
-        }
-        else
+        if (distance <= 0)
         {
             knock = true;
             killed++;
+            std::cout << "You hit him!!!" << std::endl;
+            std::cout << "It took you " << kNumCannonBalls - num_remain_cannon_balls << " shots." << std::endl;
+        }
+        else
+        {
+            if (calDistance(angle) > enemy_position)
+            {
+                std::cout << "You over shot by " << distance << std::endl;
+            }
+            else
+            {
+                std::cout << "You under shot by " << abs(distance) << std::endl;
+            }
         }
     } while (num_remain_cannon_balls > 0 && !knock);
 
-    std::cout << "You hit him!!!" << std::endl;
-    std::cout << "It took you " << kNumCannonBalls - num_remain_cannon_balls << " shots." << std::endl;
     if (num_remain_cannon_balls <= 0)
         std::cout << "Out of ammo..." << std::endl;
     std::cout << "You have killed " << killed << " enemy." << std::endl;
