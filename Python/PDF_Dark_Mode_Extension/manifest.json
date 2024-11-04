@@ -8,6 +8,10 @@
       "16": "images/rainbow.png"
     }
   },
+  "permissions": [
+    "activeTab",
+    "storage"
+  ],
   "content_scripts": [
     {
       "matches": [
@@ -18,5 +22,8 @@
         "scripts/content.js"
       ]
     }
-  ]
+  ],
+  "background": {
+    "service_worker": "scripts/background.js"
+  }
 }
