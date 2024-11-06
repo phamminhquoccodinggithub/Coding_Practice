@@ -16,7 +16,7 @@ Attributes:
 class CreditCard:
     """ A conumer credit card."""
 
-    def __init__(self, customer, bank, account, limit, balance) -> None:
+    def __init__(self, customer, bank, account, limit) -> None:
         """Create a new credit card instance.
 
         The initial balance is zero.
@@ -79,3 +79,55 @@ class CreditCard:
             float: The current balance in dollars
         """
         return self._balance
+
+
+    def charge(self, price):
+        """Charge the given price to the card.
+
+        Args:
+            price (float): The amount to charge in dollars
+
+        Returns:
+            bool: True if charge was processed, False if charge would exceed limit
+        """
+        if price + self.balance > self.limit:
+            return False
+        else:
+            self._balance += price
+            return True
+
+
+    def make_payment(self, amount):
+        """Make a payment to reduce the balance.
+
+        Args:
+            amount (float): The amount to pay in dollars
+        """
+        self._balance -= amount
+
+
+if __name__ == '__main__':
+    # Test the CreditCard class with sample usage
+    # Create a wallet of credit cards
+    # Process charges and payments
+    # Print account summaries
+    wallet = []
+    wallet.append(CreditCard('John Doe', 'bank', '1234 5678 9012 3456', 2500))
+    wallet.append(CreditCard('Jane Smith', 'bank', '9876 5432 1098 7654', 3500))
+    wallet.append(CreditCard('Bob Wilson', 'bank', '1111 2222 3333 4444', 5000))
+
+    for val in range(1, 17):
+        wallet[0].charge(val)
+        wallet[1].charge(2*val)
+        wallet[2].charge(3*val)
+
+    for c in range(3):
+        print(f'Customer = {wallet[c].customer}')
+        print(f'Bank = {wallet[c].bank}')
+        print(f'Account = {wallet[c].account}')
+        print(f'Limit = {wallet[c].limit}')
+        print(f'Balance = {wallet[c].balance}')
+        while wallet[c].balance > 100:
+            wallet[c].make_payment(100)
+            print('New balance =', wallet[c].balance)
+        print()
