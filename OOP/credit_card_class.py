@@ -34,7 +34,6 @@ class CreditCard:
         self._limit = limit
         self._balance = 0
 
-
     @property
     def customer(self):
         """Get the name of the customer.
@@ -80,7 +79,6 @@ class CreditCard:
         """
         return self._balance
 
-
     def charge(self, price):
         """Charge the given price to the card.
 
@@ -96,7 +94,6 @@ class CreditCard:
             self._balance += price
             return True
 
-
     def make_payment(self, amount):
         """Make a payment to reduce the balance.
 
@@ -106,6 +103,44 @@ class CreditCard:
         self._balance -= amount
 
 
+class PredatoryCreditCard(CreditCard):
+    """ An extension to CreditCard that compounds interst and fees"""
+
+    def __init__(self, customer, bank, account, limit, apr) -> None:
+        """Create a new predatory credit card instance.
+
+        Args:
+            customer (str): The name of the customer
+            bank (str): The name of the issuing bank 
+            account (str): The account identifier
+            limit (float): Credit limit in dollars
+            apr (float): Annual percentage rate (e.g. 0.0825 for 8.25% APR)
+        """
+        super().__init__(customer, bank, account, limit)  # call super constructor
+        self._apr = apr
+
+    def charge(self, price):
+        """Charge the given price to the card, plus fees if applicable.
+
+        Args:
+            price (float): The amount to charge in dollars
+
+        Returns:
+            bool: True if charge was processed, False if charge would exceed limit
+        """
+        success = super().charge(price)  # call inherited method
+        if not success:
+            self.balance += 5  # assess penalty
+        return success
+
+    def process_month(self):
+        """Assess monthly interest on outstanding balance."""
+        if self._balance > 0:
+            # if positive balance, convert APR to monthly multiplicative factor
+            monthly_factor = pow(1 + self._apr, 1/12)
+            self._balance *= monthly_factor
+
+
 if __name__ == '__main__':
     # Test the CreditCard class with sample usage
     # Create a wallet of credit cards
@@ -113,8 +148,10 @@ if __name__ == '__main__':
     # Print account summaries
     wallet = []
     wallet.append(CreditCard('John Doe', 'bank', '1234 5678 9012 3456', 2500))
-    wallet.append(CreditCard('Jane Smith', 'bank', '9876 5432 1098 7654', 3500))
-    wallet.append(CreditCard('Bob Wilson', 'bank', '1111 2222 3333 4444', 5000))
+    wallet.append(CreditCard('Jane Smith', 'bank',
+                  '9876 5432 1098 7654', 3500))
+    wallet.append(CreditCard('Bob Wilson', 'bank',
+                  '1111 2222 3333 4444', 5000))
 
     for val in range(1, 17):
         wallet[0].charge(val)
