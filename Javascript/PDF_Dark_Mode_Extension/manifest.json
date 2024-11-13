@@ -10,13 +10,13 @@
   },
   "permissions": [
     "activeTab",
-    "storage"
+    "storage",
+    "scripting"
   ],
   "content_scripts": [
     {
       "matches": [
-        "*://*/*.pdf",
-        "file:///*/*.pdf"
+        "<all_urls>"
       ],
       "js": [
         "scripts/content.js"
