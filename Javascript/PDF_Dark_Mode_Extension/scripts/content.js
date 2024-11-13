@@ -1,22 +1,17 @@
-var cover = document.createElement("div");
-let existingStyles = cover.getAttribute("style");
-
-if (!existingStyles) {
-    var styles = ` 
-        position: fixed; 
-        pointer-events: none; 
-        top: 0; 
-        left: 0; 
-        width: 100vw; 
-        height: 100vh; 
-        background-color: white;
-        mix-blend-mode: exclusion;
-        z-index: 1; 
-        display: none;
-    `;
-    cover.setAttribute("style", styles);
-}
-
+let cover = document.createElement("div");
+let newStyle = ` 
+    position: fixed; 
+    pointer-events: none; 
+    top: 0; 
+    left: 0; 
+    width: 100vw; 
+    height: 100vh; 
+    background-color: white;
+    mix-blend-mode: exclusion;
+    z-index: 1;
+    display: none;
+`;
+cover.setAttribute("style", newStyle);
 cover.setAttribute("id", "darkModeOverlay");
 document.body.appendChild(cover);
 
